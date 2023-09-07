@@ -1,0 +1,301 @@
+import { Box, Button, PaletteColor, Typography, useTheme } from "@mui/material";
+import { LineSeriesOption } from "echarts";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import useChart, { ECOption } from "../../../hooks/useChart";
+import { FeedCurveItem, FeedCurveItemFactory, FeedCurveItemKey } from "../../../models/feeding.model";
+import MatInput from "../../common/mui/MatInput";
+import DisplayInfoCard from "../../common/tools/DisplayInfoCard";
+import Iconfont from "../../common/tools/Iconfont";
+import { ChangeEvent } from "react";
+import { $message, isNull } from "../../../utils";
+import MessageTip from "../../common/tools/MessageTip";
+
+const defaultChartId = "feed-curve-detail-id";
+
+interface ConfigFeedCurveProps {
+  chartId?: string;
+}
+
+const curveItemKeys: FeedCurveItemKey[] = ["min", "warn", "target", "max"];
+
+const tableHeadTitles = ["day", "min", "warn", "target", "max"];
+
+function genarateAreaStyle(color: PaletteColor): LineSeriesOption["areaStyle"] {
+  return {
+    color: {
+      type: "linear",
+      x: 0,
+      y: 0,
+      x2: 0,
+      y2: 1,
+      colorStops: [
+        {
+          offset: 0,
+          color: color.light, // 0% 处的颜色
+        },
+        {
+          offset: 1,
+          color: color.hoverBg, // 100% 处的颜色
+        },
+      ],
+      global: false, // 缺省为 false
+    },
+  };
+}
+
+export default function ConfigFeedCurve(props: ConfigFeedCurveProps) {
+  const { chartId = defaultChartId } = props;
+  const { t } = useTranslation();
+  const { chart } = useChart({ id: chartId });
+  const {
+    palette: { primary, secondary1, warning, error, other },
+  } = useTheme();
+  const [deleteMode, setDeleteMode] = useState(false);
+  const [feedCurveItems, setFeedCurveItems] = useState<FeedCurveItem[]>(mockCurveItems);
+  const [selectedRow, setSelectedRow] = useState<FeedCurveItem>();
+  const [onEditCell, setOnEditCell] = useState<{ id: string; key: FeedCurveItemKey }>({ id: null, key: null });
+
+  const chartOption = useMemo<ECOption>(() => {
+    return {
+      //   title: {
+      //     text: "Stacked Line",
+      //   },
+      tooltip: {
+        trigger: "axis",
+      },
+      legend: {
+        data: ["Union Ads", "Video Ads", "Direct", "Search Engine"],
+        icon: "circle",
+      },
+      grid: {
+        left: "1%",
+        right: "2%",
+        bottom: "1%",
+        containLabel: true,
+        // top: "5%",
+      },
+      //   toolbox: {
+      //     feature: {
+      //       saveAsImage: {},
+      //     },
+      //   },
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      },
+      yAxis: {
+        type: "value",
+        splitLine: { lineStyle: { type: "dashed" } },
+      },
+      animationDuration: 500,
+      series: [
+        {
+          smooth: true,
+          name: "Union Ads",
+          type: "line",
+          //   stack: "Total",
+          data: [220, 182, 191, 234, 290, 330, 310],
+          lineStyle: { color: error.main },
+          areaStyle: genarateAreaStyle(error),
+          showSymbol: false,
+        },
+        {
+          smooth: true,
+          name: "Video Ads",
+          type: "line",
+          //   stack: "Total",
+          data: [150, 232, 201, 154, 190, 330, 410],
+          lineStyle: { color: warning.main },
+          areaStyle: genarateAreaStyle(warning),
+          showSymbol: false,
+        },
+        {
+          smooth: true,
+          name: "Direct",
+          type: "line",
+          //   stack: "Total",
+          data: [320, 332, 301, 334, 390, 330, 320],
+          lineStyle: { color: secondary1.main },
+          areaStyle: genarateAreaStyle(secondary1),
+          showSymbol: false,
+        },
+        {
+          smooth: true,
+          name: "Search Engine",
+          type: "line",
+          lineStyle: { color: primary.main },
+          //   stack: "Total",
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          areaStyle: genarateAreaStyle(primary),
+          showSymbol: false,
+        },
+      ],
+    };
+  }, [primary, secondary1, error, warning]);
+
+  useEffect(() => {
+    chart?.setOption(chartOption);
+  }, [chartOption, chart]);
+
+  const addRow = useCallback(() => {
+    setFeedCurveItems([...feedCurveItems, new FeedCurveItemFactory()]);
+  }, [feedCurveItems]);
+
+  const deleteRow = useCallback(() => {
+    console.log(feedCurveItems);
+    setDeleteMode(true);
+  }, [feedCurveItems]);
+
+  const confirmDelete = useCallback(() => {
+    setFeedCurveItems((prev) => prev.filter((item) => item.id !== selectedRow.id));
+    setDeleteMode(false);
+    setSelectedRow(null);
+  }, [selectedRow]);
+
+  const onRowClick = useCallback((data: FeedCurveItem) => {
+    setSelectedRow(data);
+  }, []);
+
+  const handleDoubleClick = useCallback((item: FeedCurveItem, key: FeedCurveItemKey) => {
+    setOnEditCell({ id: item.id, key });
+  }, []);
+
+  const onInputChange = useCallback((e: ChangeEvent<HTMLInputElement>, curveItem: FeedCurveItem, key: FeedCurveItemKey) => {
+    const value = e.target.value;
+    console.log(parseInt(value));
+    setFeedCurveItems((prev) =>
+      prev.map((item) => {
+        if (item.id === curveItem.id) {
+          return { ...item, [key]: value };
+        }
+        return item;
+      })
+    );
+  }, []);
+
+  const onCellBlur = useCallback(
+    (curveItem: FeedCurveItem, key: FeedCurveItemKey) => {
+      const foundItem = feedCurveItems.find((item) => item.id === curveItem.id);
+      if (foundItem[key] < 0 || isNull(feedCurveItems.find((item) => item.id === curveItem.id)[key])) {
+        setTimeout(() => {
+          $message.error("feed.min0");
+        }, 200);
+        setFeedCurveItems((prev) =>
+          prev.map((item) => {
+            if (item.id === curveItem.id) {
+              return { ...item, [key]: 0 };
+            }
+            return item;
+          })
+        );
+      }
+      setOnEditCell({ id: null, key: null });
+    },
+    [feedCurveItems]
+  );
+
+  const computedRowSx = useCallback(
+    (item: FeedCurveItem) => {
+      const selected = item.id === selectedRow?.id;
+      return {
+        borderBottom: 1,
+        height: 40,
+        borderColor: other.divider,
+        "&:hover": { bgcolor: selected ? primary.outlined : primary.hoverBg },
+        bgcolor: selected ? primary.outlined : "",
+      };
+    },
+    [primary, other, selectedRow]
+  );
+
+  return (
+    <Box sx={{ pb: 3 }}>
+      <DisplayInfoCard title="device.feedCurve">
+        <Box id={chartId} sx={{ height: 280 }}></Box>
+      </DisplayInfoCard>
+      <DisplayInfoCard sx={{ mt: 3 }} title="feed.curveData">
+        <Box sx={{ px: 3, mt: 1, height: 280, overflow: "auto" }}>
+          <Box className="flex-evenly" sx={{ position: "sticky", top: 0, bgcolor: "#fff" }}>
+            {tableHeadTitles.map((title) => (
+              <Box sx={{ bgcolor: other.input, flex: 1, p: 1, borderRight: 2, borderRightColor: "#fff" }} key={title}>
+                <Typography color="text.secondary" textAlign="center">
+                  {t("feed." + title)}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+          <Box>
+            {feedCurveItems.map((item) => {
+              // 这是一行
+              return (
+                <Box sx={computedRowSx(item)} onClick={() => onRowClick(item)} key={item.id} className="flex-evenly pointer">
+                  <Box className="flex" sx={{ bgcolor: other.input, p: 1.25, flex: 1, borderRight: 1, borderColor: other.divider }}>
+                    <Typography>{item.day}</Typography>
+                  </Box>
+                  {curveItemKeys.map((key) => {
+                    const editMode = item.id === onEditCell?.id && key === onEditCell.key;
+                    return (
+                      <Box
+                        key={key}
+                        onDoubleClick={() => handleDoubleClick(item, key)}
+                        className="flex"
+                        sx={{ p: 1.25, pb: editMode ? 0 : 1.25, flex: 1, borderRight: 1, borderColor: other.divider }}
+                      >
+                        {editMode && (
+                          <MatInput
+                            onChange={(e) => onInputChange(e, item, key)}
+                            onBlur={() => onCellBlur(item, key)}
+                            inputProps={{ type: "number", autoFocus: "autofocus", min: 0 }}
+                            value={item[key]}
+                          />
+                        )}
+                        {!editMode && <Typography>{item[key]}</Typography>}
+                      </Box>
+                    );
+                  })}
+                  {/* <Box className="flex" sx={{ p: 1.25, flex: 1, borderRight: 1, borderColor: other.divider }}>
+                    <Typography>{item.day}</Typography>
+                  </Box>
+                  <Box className="flex" sx={{ p: 1.25, flex: 1, borderRight: 1, borderColor: other.divider }}>
+                    <Typography>{item.day}</Typography>
+                  </Box>
+                  <Box className="flex" sx={{ p: 1.25, flex: 1 }}>
+                    <Typography>{item.day}</Typography>
+                  </Box> */}
+                </Box>
+              );
+            })}
+          </Box>
+        </Box>
+      </DisplayInfoCard>
+      <Box className="flex-btw" sx={{ my: 2 }}>
+        <Box>
+          <MessageTip title="feed.dbClickTip"></MessageTip>
+        </Box>
+        <Box>
+          {!deleteMode && (
+            <Fragment>
+              <Button className="flex" onClick={addRow}>
+                {/* <Iconfont icon="ic_addgroup"></Iconfont> */}
+                <span>{t("feed.addNewTableRow")}</span>
+              </Button>
+              <Button onClick={deleteRow} disabled={!selectedRow} sx={{ ml: 2 }} color="error" className="flex">
+                {/* <Iconfont icon="ic_delete"></Iconfont> */}
+                <span>{t("feed.deleteTableRow")}</span>
+              </Button>
+            </Fragment>
+          )}
+          {deleteMode && (
+            <Fragment>
+              <Typography sx={{ mr: 2 }}>{t("feed.deleteRowTitle")}</Typography>
+              <Iconfont pointer icon="ic_online" onClick={confirmDelete}></Iconfont>
+              <Iconfont onClick={() => setDeleteMode(false)} pointer icon="ic_offline"></Iconfont>
+            </Fragment>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+}

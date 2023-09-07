@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "strict": true,
+    "outDir": "../build",
+    "strictNullChecks": false,
+    "rootDir": "../",
+    "noEmitOnError": true,
+    "typeRoots": ["node_modules/@types"]
+  }
+}

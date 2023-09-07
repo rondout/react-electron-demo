@@ -1,0 +1,84 @@
+{
+  "name": "js-web",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vantron Technology",
+    "email": "sales@vantrontech.com.cn"
+  },
+  "homepage": ".",
+  "description": "Vantron Technology",
+  "main": "build/electron/main.js",
+  "private": true,
+  "dependencies": {
+    "electron-devtools-installer": "^3.2.0",
+    "electron-reload": "^1.5.0"
+  },
+  "scripts": {
+    "install-renderer": "cd renderer && yarn install",
+    "install-all": "yarn install && yarn install-renderer",
+    "start": "cd renderer && yarn start",
+    "build": "cd renderer && yarn build",
+    "test": "react-scripts test",
+    "postinstall": "electron-builder install-app-deps",
+    "electron:dev": "concurrently \"yarn start\" \"wait-on http://127.0.0.1:3003 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3003 && tsc -p electron && electron .\"",
+    "electron:build": "yarn build && tsc -p electron && electron-builder",
+    "eject": "react-scripts eject"
+  },
+  "build": {
+    "productName": "万创精准饲喂装置集中管理软件",
+    "electronLanguages": [
+      "zh-CN",
+      "en-US"
+    ],
+    "appId": "com.vantron.js-web",
+    "linux": {
+      "target": [
+        "deb"
+      ],
+      "artifactName": "JS-WEB.deb",
+      "icon": "renderer/public/icon"
+    },
+    "win": {
+      "icon": "renderer/public/icon/32x32.png"
+    },
+    "extends": null,
+    "files": [
+      "build/**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "extra_files",
+        "to": "extra_files"
+      }
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "electron": "13",
+    "electron-builder": "24.2.0",
+    "wait-on": "^7.0.1"
+  },
+  "proxy": "http://192.168.16.197:8080"
+}

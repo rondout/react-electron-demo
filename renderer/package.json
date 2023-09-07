@@ -1,0 +1,76 @@
+{
+  "name": "js-web",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vantron Technology",
+    "email": "sales@vantrontech.com.cn"
+  },
+  "description": "Vantron Technology",
+  "homepage": ".",
+  "main": "build/electron/main.js",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/lab": "^5.0.0-alpha.121",
+    "@mui/material": "^5.2.4",
+    "@mui/styles": "5.2.3",
+    "@mui/x-date-pickers": "^5.0.0-beta.2",
+    "@reduxjs/toolkit": "^1.9.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/electron-devtools-installer": "^2.2.2",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.13.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "echarts": "^5.4.1",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-reload": "^1.5.0",
+    "formik": "^2.2.9",
+    "i18next": "^22.4.10",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
+    "nanoid": "^4.0.1",
+    "node-sass": "^8.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^12.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.2",
+    "react-scripts": "5.0.1",
+    "sass-loader": "^13.2.0",
+    "scss-loader": "^0.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^3.1.1",
+    "yup": "^1.0.2"
+  },
+  "scripts": {
+    "start": "cross-env PORT=3003 react-scripts start",
+    "build": "cross-env BUILD_PATH=../build cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "proxy": "http://192.168.16.197:8080"
+}

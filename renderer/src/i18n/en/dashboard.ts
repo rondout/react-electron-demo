@@ -1,0 +1,50 @@
+import { LocaleFile } from "..";
+
+const dashboard: LocaleFile = {
+  deviceOnline: "Online",
+  deviceOffline: "Offline",
+  deviceConfiguring: "Initializing",
+  OTAUpgrade: "OTA Upgrade",
+  deviceList: "Device List",
+  viewDetail: "View detail",
+  admin: "Administrators",
+  deviceLocation: "Device Location",
+  device: "Devices",
+  city: "City",
+  deviceNum: "Devices",
+  deviceModel: "Device Model",
+  androidVersion: "Android Version",
+  noCityTip: "If you can't get the location information, please check whether the device has and enable the GPS positioning function",
+  noTaskTip: "No task summary found",
+  taskActionTip: "Please go to the device management page to make operations",
+  guideTitle: "Welcome to BlueSphere Mobile Device Management Cloud Platform",
+  guideSubTitle:
+    "You can manage mobile devices through the platform, allowing you to understand and control the configuration, comprehensive system status and security risks of mission-critical mobile devices.",
+  registerByQrCode: "Register the device via QR code",
+  registByQrCodeSubtitle: "You can register your device by scanning the QR code with your mobile device",
+  registerByTempCode: "Register device by template code",
+  registByTempCodeSubtitle: "You can register your device by entering the template code using your mobile device",
+  viewRegistMethod: "View register method",
+  createRegTemp: "Create Register Template",
+  letsStart: "Let's start!",
+  guideDialogTitles: {
+    FACTORY_RESET: "Factory reset, 6 taps anywhere on the welcome screen",
+    CONNECT_WIFI: "Connect the device to a cellular network or Wi-Fi. Click Next",
+    SCAN_QR_CODE: "Select the registration template to view the QR code. Follow the configuration steps on the device to scan the QR code generated from the portal.",
+    INPUT_TEMPLATE_COD: "Select a registration template to view the template code. On the device, follow the configuration steps and enter the template code generated from the portal.",
+    INSTALL_AGENT: "To complete the installation of the BlueSphere MDM Device Management Application, click Accept and Continue",
+    ALLOW_PERMISSION: 'Grant BlueSphere Device Manager application permission to modify system settings, click "Enable Permission" to continue configuration',
+    SETTINGS: "To grant permission, go to Modify System Settings > BlueSphere Device Management, then switch to Allow modifying system settings. Return to the main screen.",
+  },
+  guideDialogSubTitles: {
+    FACTORY_RESET: "Note: If you don't see this welcome screen on your device, try configuring it with the Provisioner Tool or contact us",
+    CONNECT_WIFI: "Note: This step does not apply to android 9 and higher.",
+    SCAN_QR_CODE: "Note: The scan screen may appear multiple times for some devices, please rescan and continue.",
+    INPUT_TEMPLATE_COD: "",
+    INSTALL_AGENT: "",
+    ALLOW_PERMISSION: "",
+    SETTINGS: "",
+  },
+};
+
+export default dashboard;

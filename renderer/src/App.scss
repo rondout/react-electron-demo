@@ -1,0 +1,273 @@
+$primary: #3f51b5;
+
+// @font-face {
+//   font-family: HarmonyOS_Sans_SC_Regular;
+//   src: url(./assets/fonts/HarmonyOS_Sans_SC_Regular.ttf);
+// }
+
+html {
+  overflow: hidden;
+}
+
+.App,
+html,
+body {
+  height: 100%;
+}
+// .App,
+// .MuiTypography-root,
+// html,
+// body {
+//   // font-family: HarmonyOS_Sans_SC_Regular !important;
+// }
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-container {
+  // padding-top: 8px;
+  // padding-bottom: 8px;
+  // box-sizing: border-box;
+  height: 100%;
+  padding: 16px;
+}
+
+// @media screen and (max-width: 600px) {
+//   .main-container > div {
+//     padding-top: 0;
+//     padding-bottom: 0;
+//   }
+// }
+
+.content-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.left-nav-container {
+  transition: margin 0.3s;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-start {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex-evenly {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-btw {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+.border-box {
+  box-sizing: border-box;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.config-temp-card-content {
+  height: calc(100% - 86px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  // background: #fff;
+  // box-shadow: 0px 1px 4px 2px rgb(44 57 127 / 12%);
+  // border-radius: 0 0 8px 8px;
+}
+
+.custom-table-item {
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  line-height: 48px;
+  padding-right: 24px;
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// ::-webkit-scrollbar-thumb {
+//   background: fade-out($primary, 0.3);
+//   border-radius: 4px;
+// }
+// ::-webkit-scrollbar {
+//   background: #cbcbcb;
+//   height: 10px;
+//   width: 10px;
+//   border-radius: 4px;
+// }
+
+.config-temp-card {
+  box-shadow: 0px 1px 4px 2px rgba(44, 57, 127, 0.12);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.vantron {
+  font-size: 24px;
+}
+
+.MuiTreeItem-content {
+  box-sizing: border-box !important;
+}
+
+.custom-chip-inner {
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+.MuiTableCell-root {
+  // height: 57px;
+  box-sizing: border-box;
+}
+
+.line-clamp,
+.MuiTableCell-root,
+.word-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  white-space: nowrap;
+}
+/********************************************************************/
+.device-manage-content {
+  height: calc(100% - 40px);
+  // overflow-y: auto;
+  margin-top: 4px;
+}
+
+.edit-img-container-circle {
+  .cropper-view-box,
+  .cropper-face {
+    border-radius: 50%;
+  }
+}
+
+.hided-input {
+  width: 0;
+  padding: 0;
+  height: 0;
+  margin: 0;
+  border: none;
+}
+
+.sticky-cell {
+  left: 0;
+  z-index: 2;
+}
+.sticky-left {
+  left: 0px;
+}
+
+.sticky-left-with-select {
+  left: 43px;
+}
+
+.sticky-right {
+  right: 0;
+}
+
+.not-to-show {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: none;
+  opacity: 0;
+}
+
+// Leaflet Map有关
+.leaflet-map-container {
+  z-index: 1;
+  position: relative;
+  cursor: default;
+}
+.map-location-infor {
+  position: absolute;
+  top: 0;
+  z-index: 400;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 2px 4px;
+  width: 174px;
+  white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 14px;
+  display: none;
+  height: 25px;
+}
+
+.relative-position {
+  position: relative;
+}
+
+.abs-position {
+  position: absolute;
+}
+
+.abs-position-important {
+  position: absolute !important;
+}
+
+.device-location-detail-geofencing-popup {
+  flex-wrap: nowrap;
+  span {
+    white-space: nowrap;
+  }
+  .geo-detail-title {
+    padding-right: 8px;
+  }
+}
+
+.with-border {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
